@@ -1,0 +1,14 @@
+- hosts: all
+  become: True
+
+  tasks:
+    - name: Update all packages
+      package:
+        name: '*'
+        state: latest
+      register: update_packages
+
+    - name: Reboot if needed
+      reboot:
+      when:
+        - update_packages.changed
